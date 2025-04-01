@@ -1,0 +1,312 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\parskip = 1.0\baselineskip
+
+\title{Biomarker-Guided Treatment in Psychiatry: \\ A Decision Support Tool}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Treatment-resistant depression (TRD) represents a significant challenge in psychiatry, with approximately 30\% of patients failing to respond adequately to standard interventions. Novel treatments such as ketamine, esketamine, and transcranial magnetic stimulation offer new hope, but they are costly and not universally effective. This creates an urgent need for precision psychiatry approaches that can identify which patients are most likely to benefit from specific interventions.
+
+Biomarkers—measurable indicators that predict treatment response—offer a promising path forward. However, designing clinical trials that effectively validate these biomarkers requires careful consideration of statistical power, sample size, and economic factors. This application provides a comprehensive framework for planning biomarker-guided clinical trials in psychiatry, with a particular focus on depression as measured by the Montgomery–Åsberg Depression Rating Scale (MADRS).
+
+\section{The Biomarker-Response Model}
+
+\subsection{Conceptual Framework}
+
+Our model considers a scenario where:
+
+\begin{itemize}
+    \item Patients with depression are assessed using a biomarker (e.g., EEG measure, inflammatory marker, genetic profile)
+    \item Based on the biomarker value, patients may be selected for a specific treatment
+    \item The treatment effect varies depending on the patient's biomarker status
+    \item We want to determine the optimal biomarker threshold for patient selection
+\end{itemize}
+
+This approach allows for personalized treatment decisions that maximize clinical benefit while optimizing resource allocation.
+
+\subsection{Statistical Model}
+
+We model the relationship between the biomarker and treatment response as follows:
+
+\begin{itemize}
+    \item $Z$ represents the true (latent) biomarker value
+    \item $X$ represents the observed biomarker measurement (with measurement error)
+    \item $Y$ represents the clinical outcome (e.g., change in MADRS score)
+    \item $T$ indicates treatment assignment (1 = treatment, 0 = control)
+\end{itemize}
+
+The outcome is modeled as:
+\begin{equation}
+Y = \beta_0 + \beta_1 T + \beta_2 Z + \beta_3 (T \times Z) + \varepsilon_Y
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $\beta_1$ represents the average treatment effect across all patients
+    \item $\beta_2$ represents the relationship between the biomarker and outcome in untreated patients
+    \item $\beta_3$ represents the biomarker-treatment interaction (how the treatment effect varies with biomarker levels)
+\end{itemize}
+
+For simplicity, the application uses standardized variables with unit variance.
+
+\section{Key Parameters in the Application}
+
+The application allows users to explore how various parameters affect statistical power and economic outcomes:
+
+\subsection{Statistical Parameters}
+
+\begin{itemize}
+    \item \textbf{Overall Treatment Effect (Cohen's d):} The standardized mean difference between treatment and control groups across the entire population.
+    
+    \item \textbf{Biomarker-Outcome Correlation in Treatment Group:} How strongly the biomarker predicts outcomes in treated patients. Higher values indicate stronger predictive ability.
+    
+    \item \textbf{Biomarker-Outcome Correlation in Control Group:} How strongly the biomarker predicts outcomes in untreated patients. The difference between treatment and control correlations indicates the biomarker's predictive value for treatment response.
+    
+    \item \textbf{Biomarker Threshold:} The cutoff value above which patients are selected for treatment. Higher thresholds are more selective.
+    
+    \item \textbf{Sample Size:} Total number of participants in the study.
+    
+    \item \textbf{Proportion in Treatment Group:} Allocation ratio between treatment and control groups.
+\end{itemize}
+
+\subsection{Economic Parameters}
+
+\begin{itemize}
+    \item \textbf{Total Patient Population:} The number of patients eligible for screening and potential treatment.
+    
+    \item \textbf{Cost per Biomarker Test:} The expense associated with measuring the biomarker in each patient.
+    
+    \item \textbf{Value per Treatment Responder:} The economic benefit derived from each patient who responds to treatment.
+    
+    \item \textbf{Cost per Treatment:} The expense of providing the treatment to each selected patient.
+\end{itemize}
+
+\section{Power Analysis}
+
+The application provides three key visualizations for power analysis:
+
+\subsection{Power vs. Biomarker Threshold}
+
+This plot shows how statistical power changes as the biomarker threshold is adjusted. It illustrates the trade-off between:
+
+\begin{itemize}
+    \item Using a low threshold (including more patients, but potentially diluting the treatment effect)
+    \item Using a high threshold (including fewer patients with stronger treatment effects, but reducing sample size)
+\end{itemize}
+
+The application offers two power calculation methods:
+\begin{itemize}
+    \item Standard two-group comparison (treatment vs. control in the selected population)
+    \item Comparison with known control response (which can increase power when historical data is available)
+\end{itemize}
+
+\subsection{Power vs. Sample Size}
+
+This plot shows how statistical power increases with larger sample sizes for a given biomarker threshold. It helps researchers determine the minimum sample size needed to achieve adequate power (typically 80\%).
+
+\subsection{Effect Size vs. Biomarker Threshold}
+
+This plot illustrates how the expected treatment effect (Cohen's d) changes with different biomarker thresholds. It includes 95\% confidence intervals to reflect the uncertainty in effect size estimation.
+
+The effect size in the selected subpopulation is calculated as:
+\begin{equation}
+\delta = \beta_1 + \beta_3 \times \mathbb{E}[Z|X > X_t]
+\end{equation}
+
+Where $\mathbb{E}[Z|X > X_t]$ is the expected value of the true biomarker in patients selected based on the observed biomarker exceeding threshold $X_t$.
+
+\section{Economic Analysis}
+
+The economic analysis helps evaluate the financial implications of biomarker-guided treatment decisions:
+
+\subsection{Cost-Benefit Analysis}
+
+This plot shows how various economic metrics change with different biomarker thresholds:
+
+\begin{itemize}
+    \item \textbf{Testing Cost:} The total expense of screening all patients with the biomarker test.
+    
+    \item \textbf{Treatment Cost:} The total expense of treating patients who meet the biomarker threshold.
+    
+    \item \textbf{Value Generated:} The economic benefit derived from patients who respond to treatment.
+    
+    \item \textbf{Net Benefit:} The overall economic value (Value Generated minus Testing and Treatment Costs).
+\end{itemize}
+
+\subsection{Economic Summary}
+
+The application provides a detailed summary of economic metrics for the current biomarker threshold, including:
+
+\begin{itemize}
+    \item Number and percentage of patients selected
+    \item Expected responder rate in the selected population
+    \item Total costs and benefits
+    \item Return on investment (ROI)
+    \item Cost per responder
+\end{itemize}
+
+\section{Practical Applications}
+
+\subsection{Clinical Trial Design}
+
+The application can help researchers:
+
+\begin{itemize}
+    \item Determine the optimal biomarker threshold for patient selection
+    \item Calculate the required sample size for adequate statistical power
+    \item Estimate the expected treatment effect in the selected population
+    \item Evaluate the economic viability of biomarker-guided treatment
+\end{itemize}
+
+\subsection{Clinical Implementation}
+
+Once a biomarker is validated, the application can guide clinical implementation by:
+
+\begin{itemize}
+    \item Identifying the threshold that maximizes net economic benefit
+    \item Estimating the proportion of patients who would be selected for treatment
+    \item Projecting the expected responder rate and cost per responder
+    \item Calculating the return on investment for healthcare systems
+\end{itemize}
+
+\section{Conclusion}
+
+This application provides a comprehensive framework for designing and evaluating biomarker-guided treatment strategies in psychiatry. By integrating statistical power analysis with economic considerations, it helps researchers and clinicians make informed decisions that balance scientific rigor with practical implementation.
+
+As precision psychiatry continues to evolve, tools like this will be essential for translating biomarker research into clinical practice, ultimately improving outcomes for patients with treatment-resistant depression and other psychiatric conditions.
+
+\appendix
+\section{Technical Details}
+
+\subsection{Data-Generating Model}
+
+Assuming standardized variables with $\text{Var}(Z) = \text{Var}(Y) = 1$:
+
+\begin{align}
+Z &\sim N(0, 1) \quad \text{(true biomarker, latent)} \\
+X &= Z + \varepsilon_Z \quad \text{where } \varepsilon_Z \sim N(0, \sigma^2_Z) \quad \text{(observed biomarker)} \\
+Y &= \beta_0 + \beta_1 T + \beta_2 Z + \beta_3 (T \times Z) + \varepsilon_Y \quad \text{where } \varepsilon_Y \sim N(0, \sigma^2_Y)
+\end{align}
+
+\subsection{Probability of Selection}
+
+The probability that a patient's observed biomarker exceeds the threshold is:
+\begin{equation}
+P(X > X_t) = 1 - \Phi\left(\frac{X_t}{\sqrt{1 + \sigma^2_Z}}\right)
+\end{equation}
+
+In the application, we use the simplified form for standardized variables:
+\begin{equation}
+P(X > X_t) = 1 - \Phi(X_t)
+\end{equation}
+
+\subsection{Expected Value of True Biomarker in Selected Subgroup}
+
+For patients selected based on $X > X_t$, the expected value of the true biomarker $Z$ is:
+\begin{equation}
+\mathbb{E}[Z|X > X_t] = \frac{\phi(X_t)}{1 - \Phi(X_t)}
+\end{equation}
+
+This is known as the Mills ratio and represents the expected value of a truncated standard normal distribution.
+
+\subsection{Effect Size Calculation}
+
+The effect size in the selected subpopulation is:
+\begin{equation}
+\delta = \beta_1 + \beta_3 \times \mathbb{E}[Z|X > X_t]
+\end{equation}
+
+Converting to standardized effect size (Cohen's d):
+\begin{equation}
+d = \frac{\delta}{\sigma_Y}
+\end{equation}
+
+\subsection{Power Calculation for Two-Group Comparison}
+
+For a two-sided test at significance level $\alpha$:
+
+\begin{enumerate}
+    \item Calculate selection probability: $p_{select} = P(X > X_t)$
+    \item Calculate subgroup sample sizes:
+    \begin{align}
+        n_{sub} &= n \times p_{select} \\
+        n_T &= n_{sub} \times p_T \\
+        n_C &= n_{sub} \times (1-p_T)
+    \end{align}
+    \item Calculate standard error: $SE = \sigma_Y \sqrt{\frac{1}{n_T} + \frac{1}{n_C}}$
+    \item Calculate critical value: $z_{crit} = \Phi^{-1}(1-\alpha/2)$
+    \item Calculate power: $\text{Power} = \Phi\left(\frac{|\delta|}{SE} - z_{crit}\right)$
+\end{enumerate}
+
+\subsection{Power Calculation with Known Control Response}
+
+When the control group response is known without sampling error:
+
+\begin{enumerate}
+    \item Calculate selection probability: $p_{select} = P(X > X_t)$
+    \item Calculate treatment group sample size: $n_T = n \times p_{select} \times p_T$
+    \item Calculate standard error: $SE = \frac{\sigma_Y}{\sqrt{n_T}}$
+    \item Calculate critical value: $z_{crit} = \Phi^{-1}(1-\alpha/2)$
+    \item Calculate power: $\text{Power} = \Phi\left(d \times \sqrt{n_T} - z_{crit}\right)$
+\end{enumerate}
+
+\subsection{True Responder Rate Calculation}
+
+Assuming a clinically significant improvement is defined as a 1 SD improvement:
+\begin{equation}
+P(\text{Response}|X > X_t) = \Phi(\delta - 1.0)
+\end{equation}
+
+\subsection{Economic Metrics Calculations}
+
+\begin{align}
+n_{selected} &= \text{Total Population} \times p_{select} \\
+n_{responders} &= n_{selected} \times P(\text{Response}|X > X_t) \\
+\text{Testing Cost} &= \text{Total Population} \times \text{Cost per Test} \\
+\text{Treatment Cost} &= n_{selected} \times \text{Cost per Treatment} \\
+\text{Value Generated} &= n_{responders} \times \text{Value per Responder} \\
+\text{Net Benefit} &= \text{Value Generated} - \text{Testing Cost} - \text{Treatment Cost} \\
+\text{ROI} &= \frac{\text{Net Benefit}}{\text{Testing Cost} + \text{Treatment Cost}} \\
+\text{Cost per Responder} &= \frac{\text{Testing Cost} + \text{Treatment Cost}}{n_{responders}}
+\end{align}
+
+\subsection{Relationship Between Model Parameters}
+
+The application uses correlations ($\rho_{XY}$) rather than regression coefficients ($\beta$) as inputs. The relationships are:
+
+\begin{align}
+\beta_1 &= d_{overall} \times \sigma_Y \\
+\beta_2 &= \rho_{XY,control} \times \sigma_Y \times \sqrt{1 + \sigma_Z^2} \\
+\beta_3 &= (\rho_{XY,treatment} - \rho_{XY,control}) \times \sigma_Y \times \sqrt{1 + \sigma_Z^2}
+\end{align}
+
+For standardized variables ($\sigma_Y = \sigma_Z = 1$):
+
+\begin{align}
+\beta_1 &= d_{overall} \\
+\beta_2 &= \rho_{XY,control} \times \sqrt{2} \\
+\beta_3 &= (\rho_{XY,treatment} - \rho_{XY,control}) \times \sqrt{2}
+\end{align}
+
+\end{document}
