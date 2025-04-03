@@ -1,0 +1,10 @@
+name: multi_arm_power_sim
+title:
+username: ctphoenix
+account: ctphoenix
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14415759
+bundleId: 10047253
+url: https://ctphoenix.shinyapps.io/multi_arm_power_sim/
+version: 1
